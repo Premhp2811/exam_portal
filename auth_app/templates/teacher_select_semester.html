@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Semester - Upload Papers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar h1 {
+            font-size: 24px;
+        }
+        
+        .teacher-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .navbar .user-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .btn-logout {
+            background: white;
+            color: #667eea;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-logout:hover {
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .page-header h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .info-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .semesters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .semester-card {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            border: 3px solid transparent;
+        }
+        
+        .semester-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        
+        .semester-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        
+        .semester-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <h1>📚 Exam Papers Portal</h1>
+            <span class="teacher-badge">👨‍🏫 Teacher</span>
+        </div>
+        <div class="user-info">
+            <span class="user-name">{{ teacher_name }}</span>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{% url 'teacher_dashboard' %}">Dashboard</a>
+            <span>›</span>
+            <a href="{% url 'teacher_upload' %}">Upload Papers</a>
+            <span>›</span>
+            <span>{{ year_name }}</span>
+        </div>
+        
+        <div class="page-header">
+            <h2>📤 Select Semester</h2>
+            <div class="info-badges">
+                <span class="badge">{{ branch_name }}</span>
+                <span class="badge">{{ year_name }}</span>
+            </div>
+        </div>
+        
+        <div class="semesters-grid">
+            <a href="{% url 'teacher_upload_form' year '1' %}" class="semester-card">
+                <div class="semester-icon">📗</div>
+                <div class="semester-name">Semester 1</div>
+            </a>
+            
+            <a href="{% url 'teacher_upload_form' year '2' %}" class="semester-card">
+                <div class="semester-icon">📘</div>
+                <div class="semester-name">Semester 2</div>
+            </a>
+            
+            <a href="{% url 'teacher_upload_form' year '3' %}" class="semester-card">
+                <div class="semester-icon">📙</div>
+                <div class="semester-name">Semester 3</div>
+            </a>
+            
+            <a href="{% url 'teacher_upload_form' year '4' %}" class="semester-card">
+                <div class="semester-icon">📕</div>
+                <div class="semester-name">Semester 4</div>
+            </a>
+            
+            <a href="{% url 'teacher_upload_form' year '5' %}" class="semester-card">
+                <div class="semester-icon">📓</div>
+                <div class="semester-name">Semester 5</div>
+            </a>
+            
+            <a href="{% url 'teacher_upload_form' year '6' %}" class="semester-card">
+                <div class="semester-icon">📔</div>
+                <div class="semester-name">Semester 6</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

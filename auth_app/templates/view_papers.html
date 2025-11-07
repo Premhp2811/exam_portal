@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Papers - Exam Papers Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar h1 {
+            font-size: 24px;
+        }
+        
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .navbar .email {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .btn-logout {
+            background: white;
+            color: #667eea;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-logout:hover {
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .page-header h2 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .info-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .tabs-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .tabs-header {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab-button:hover {
+            background: #e9ecef;
+        }
+        
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .tab-count {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        
+        .tab-button.active .tab-count {
+            background: #764ba2;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .papers-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .paper-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .paper-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .paper-card.internal {
+            border-left-color: #f093fb;
+        }
+        
+        .paper-card.sem-end {
+            border-left-color: #4facfe;
+        }
+        
+        .paper-card.model {
+            border-left-color: #43e97b;
+        }
+        
+        .paper-info {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .paper-subject {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .paper-description {
+            font-size: 14px;
+            color: #777;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+        
+        .paper-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .no-papers {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .no-papers-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .no-papers h4 {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .no-papers p {
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>📚 Exam Papers Portal</h1>
+        <div class="user-info">
+            <span class="email">{{ email }}</span>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{% url 'select_branch' %}">Branches</a>
+            <span>›</span>
+            <a href="{% url 'select_year' branch %}">{{ branch_name }}</a>
+            <span>›</span>
+            <a href="{% url 'select_semester' branch year %}">{{ year_name }}</a>
+            <span>›</span>
+            <span>Semester {{ semester }}</span>
+        </div>
+        
+        <div class="page-header">
+            <h2>📄 Exam Papers</h2>
+            <div class="info-badges">
+                <span class="badge">{{ branch_name }}</span>
+                <span class="badge">{{ year_name }}</span>
+                <span class="badge">Semester {{ semester }}</span>
+            </div>
+        </div>
+        
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-button active" onclick="openTab(event, 'internal')">
+                    📝 Internal Papers
+                    <span class="tab-count">{{ internal_papers.count }}</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'semend')">
+                    📘 Sem End Exam Papers
+                    <span class="tab-count">{{ semend_papers.count }}</span>
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'model')">
+                    📗 Model Papers
+                    <span class="tab-count">{{ model_papers.count }}</span>
+                </button>
+            </div>
+            
+            <!-- Internal Papers Tab -->
+            <div id="internal" class="tab-content active">
+                {% if internal_papers %}
+                    <div class="papers-list">
+                        {% for paper in internal_papers %}
+                        <div class="paper-card internal">
+                            <div class="paper-info">
+                                <div class="paper-subject">{{ paper.subject }}</div>
+                                <div class="paper-meta">
+                                    <div class="meta-item">
+                                        <span>📅</span>
+                                        <span>Year: {{ paper.year_exam }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>👨‍🏫</span>
+                                        <span>By: {{ paper.uploaded_by }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>📥</span>
+                                        <span>{{ paper.downloads }} downloads</span>
+                                    </div>
+                                </div>
+                                {% if paper.description %}
+                                <div class="paper-description">{{ paper.description }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="paper-actions">
+                                <a href="{{ paper.file.url }}" class="btn-download" download target="_blank">
+                                    📥 Download
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-papers">
+                        <div class="no-papers-icon">📝</div>
+                        <h4>No Internal Papers Available</h4>
+                        <p>Internal papers will be uploaded soon by teachers</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sem End Exam Papers Tab -->
+            <div id="semend" class="tab-content">
+                {% if semend_papers %}
+                    <div class="papers-list">
+                        {% for paper in semend_papers %}
+                        <div class="paper-card sem-end">
+                            <div class="paper-info">
+                                <div class="paper-subject">{{ paper.subject }}</div>
+                                <div class="paper-meta">
+                                    <div class="meta-item">
+                                        <span>📅</span>
+                                        <span>Year: {{ paper.year_exam }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>👨‍🏫</span>
+                                        <span>By: {{ paper.uploaded_by }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>📥</span>
+                                        <span>{{ paper.downloads }} downloads</span>
+                                    </div>
+                                </div>
+                                {% if paper.description %}
+                                <div class="paper-description">{{ paper.description }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="paper-actions">
+                                <a href="{{ paper.file.url }}" class="btn-download" download target="_blank">
+                                    📥 Download
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-papers">
+                        <div class="no-papers-icon">📘</div>
+                        <h4>No Sem End Exam Papers Available</h4>
+                        <p>Sem end exam papers will be uploaded soon by teachers</p>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Model Papers Tab -->
+            <div id="model" class="tab-content">
+                {% if model_papers %}
+                    <div class="papers-list">
+                        {% for paper in model_papers %}
+                        <div class="paper-card model">
+                            <div class="paper-info">
+                                <div class="paper-subject">{{ paper.subject }}</div>
+                                <div class="paper-meta">
+                                    <div class="meta-item">
+                                        <span>📅</span>
+                                        <span>Year: {{ paper.year_exam }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>👨‍🏫</span>
+                                        <span>By: {{ paper.uploaded_by }}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span>📥</span>
+                                        <span>{{ paper.downloads }} downloads</span>
+                                    </div>
+                                </div>
+                                {% if paper.description %}
+                                <div class="paper-description">{{ paper.description }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="paper-actions">
+                                <a href="{{ paper.file.url }}" class="btn-download" download target="_blank">
+                                    📥 Download
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-papers">
+                        <div class="no-papers-icon">📗</div>
+                        <h4>No Model Papers Available</h4>
+                        <p>Model papers will be uploaded soon by teachers</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all buttons
+            var tabButtons = document.getElementsByClassName("tab-button");
+            for (var i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // Show current tab and set button as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>

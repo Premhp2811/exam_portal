@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus - Exam Papers Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar h1 {
+            font-size: 24px;
+        }
+        
+        .navbar .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .navbar .email {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .btn-logout {
+            background: white;
+            color: #667eea;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-logout:hover {
+            background: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .page-header h2 {
+            color: #667eea;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .syllabus-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .syllabus-section h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .syllabus-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .syllabus-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 30%);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s;
+            border-left: 5px solid #667eea;
+        }
+        
+        .syllabus-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .syllabus-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .syllabus-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .syllabus-year {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .syllabus-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .syllabus-description {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .no-syllabus {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .no-syllabus-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .no-syllabus h4 {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .no-syllabus p {
+            font-size: 16px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>📚 Exam Papers Portal</h1>
+        <div class="user-info">
+            <span class="email">{{ email }}</span>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{% url 'select_branch' %}">Branches</a>
+            <span>›</span>
+            <span>{{ branch_name }}</span>
+            <span>›</span>
+            <span>Syllabus</span>
+        </div>
+        
+        <div class="page-header">
+            <h2>📋 Syllabus Copy</h2>
+            <span class="badge">{{ branch_name }} Department</span>
+        </div>
+        
+        <div class="syllabus-section">
+            <h3>Available Syllabus ({{ syllabus_list.count }})</h3>
+            
+            {% if syllabus_list %}
+                <div class="syllabus-list">
+                    {% for syllabus in syllabus_list %}
+                    <div class="syllabus-card">
+                        <div class="syllabus-header">
+                            <div>
+                                <div class="syllabus-title">{{ syllabus.title }}</div>
+                                <span class="syllabus-year">{{ syllabus.academic_year }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="syllabus-meta">
+                            <div class="meta-item">
+                                <span>👨‍🏫</span>
+                                <span>Uploaded by: {{ syllabus.uploaded_by }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>{{ syllabus.uploaded_at|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📥</span>
+                                <span>{{ syllabus.downloads }} downloads</span>
+                            </div>
+                        </div>
+                        
+                        {% if syllabus.description %}
+                        <div class="syllabus-description">
+                            {{ syllabus.description }}
+                        </div>
+                        {% endif %}
+                        
+                        <a href="{{ syllabus.file.url }}" class="btn-download" download target="_blank">
+                            📥 Download Syllabus PDF
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-syllabus">
+                    <div class="no-syllabus-icon">📋</div>
+                    <h4>No Syllabus Available Yet</h4>
+                    <p>Syllabus will be uploaded soon by teachers</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
