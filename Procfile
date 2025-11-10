@@ -1,1 +1,2 @@
-web: gunicorn exam_portal.wsgi
+web: gunicorn config.wsgi
+
